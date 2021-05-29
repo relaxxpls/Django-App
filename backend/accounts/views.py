@@ -6,7 +6,7 @@ from rest_framework import permissions
 User = get_user_model()
 
 class SignupView(APIView):
-    permission_classes = (permissions.AllowAny)
+    permission_classes = (permissions.AllowAny, )
     
     def post(self, request, format=None):
         data = self.request.data

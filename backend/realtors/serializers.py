@@ -5,4 +5,4 @@ from .models import Realtor
 class RealtorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Realtor
-        feilds = '__all__'
+        fields = '__all__'
