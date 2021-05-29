@@ -12,7 +12,7 @@ https://docs.djangoproject.com/en/3.2/ref/settings/
 
 from pathlib import Path
 try:
-    from .settings.local import *
+    from .settings.local_settings import *
 except FileNotFoundError:
     pass
 
