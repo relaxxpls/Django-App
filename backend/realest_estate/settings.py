@@ -28,6 +28,7 @@ INSTALLED_APPS = [
     # Local Apps (Your project's apps)
     'accounts',
     'realtors',
+    'listings',
 ]
 
 MIDDLEWARE = [
