@@ -5,9 +5,10 @@ from rest_framework import permissions
 
 User = get_user_model()
 
+
 class SignupView(APIView):
     permission_classes = (permissions.AllowAny, )
-    
+
     def post(self, request, format=None):
         data = self.request.data
         name = data['name']
@@ -15,7 +16,7 @@ class SignupView(APIView):
         password = data['password']
         password2 = data['password2']
         if password != password2:
-            return Response({'error': 'Passwords do not match'})    
+            return Response({'error': 'Passwords do not match'})
         else:
             if User.objects.filter(email=email).exists():
                 return Response({'error': 'Email already exists'})
@@ -23,6 +24,7 @@ class SignupView(APIView):
                 if len(password) < 6:
                     return Response({'error': 'Password must be atleast 6 characters'})
                 else:
-                    user = User.objects.create_user(email=email, password=password, name=name)
+                    user = User.objects.create_user(
+                        email=email, password=password, name=name)
                     user.save()
                     return Response({'success': 'User created successfully'})
