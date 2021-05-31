@@ -52,7 +52,7 @@ class SearchView(APIView):
             bedrooms = 1
         elif bedrooms == '2+':
             bedrooms = 2
-        elif bedrooms == '3+':
+        else:
             bedrooms = 3
         queryset = queryset.filter(bedrooms__gte=bedrooms)
 
@@ -81,25 +81,28 @@ class SearchView(APIView):
             sqft = 0
         queryset = queryset.filter(sqft__gte=sqft)
 
-        days_passed = data['days_listed']
-        if days_passed == '1 or less':
-            days_passed = 1
-        elif days_passed == '10 or less':
-            days_passed = 10
-        elif days_passed == '100 or less':
-            days_passed = 100
-        elif days_passed == 'Any':
-            days_passed = 0
+        days_listed = data['days_listed']
+        if days_listed == '1 or less':
+            days_listed = 1
+        elif days_listed == '10 or less':
+            days_listed = 10
+        elif days_listed == '100 or less':
+            days_listed = 100
+        elif days_listed == 'Any':
+            days_listed = 0
         for query in queryset:
-            num_days = (datetime.now(timezone.utc) - query.list_date).days
-            if num_days > days_passed: #! Error: might be <
+            days_passed = (datetime.now(timezone.utc) - query.list_date).days
+            if days_passed > days_listed:
                 queryset = queryset.exclude(slug__iexact=query.slug)
 
         has_photos = data['has_photos']
-        if has_photos == '1+':
+        if has_photos in {'0+', 'Any'}:
+            has_photos = 0
+        elif has_photos == '1+':
             has_photos = 1
-        elif has_photos == '2+':
+        else:
             has_photos = 2
+
         for query in queryset:
             count = 0
             if query.photo_1:
