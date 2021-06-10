@@ -1,13 +1,9 @@
 from pathlib import Path
 
-try:
-    from .setting.local_settings import *
-except FileNotFoundError:
-    pass
-
 BASE_DIR = Path(__file__).resolve().parent.parent
 DEBUG = True
 ALLOWED_HOSTS = []
+SECRET_KEY = '[stored locally]'
 
 # Application definition
 
@@ -29,6 +25,7 @@ INSTALLED_APPS = [
     'accounts',
     'realtors',
     'listings',
+    'contacts',
 ]
 
 MIDDLEWARE = [
@@ -69,12 +66,18 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'realest_estate',
-        'USER': PSQL_USER['USER'],
-        'PASSWORD': PSQL_USER['PASSWORD'],
-        'HOST': PSQL_USER['HOST'],
+        'USER': '[stored locally]',
+        'PASSWORD': '[stored locally]',
+        'HOST': '[stored locally]',
     }
 }
 
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = '[stored locally]'
+EMAIL_HOST_PASSWORD = '[stored locally]'
+EMAIL_USE_TLS = True
 
 # Password validation
 
@@ -116,7 +119,6 @@ STATICFILES_DIRS = [
 STATIC_ROOT = Path(BASE_DIR / 'build')
 
 MEDIA_URL = '/media/'
-
 MEDIA_ROOT = Path(BASE_DIR / 'media')
 
 REST_FRAMEWORK = {
@@ -139,3 +141,8 @@ AUTH_USER_MODEL = 'accounts.UserAccount'
 # Default primary key field type
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+try:
+    from .setting.local_settings import *
+except FileNotFoundError:
+    pass
